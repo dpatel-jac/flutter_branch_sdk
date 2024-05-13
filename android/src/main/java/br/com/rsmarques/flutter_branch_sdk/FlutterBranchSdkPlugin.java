@@ -335,6 +335,9 @@ public class FlutterBranchSdkPlugin implements FlutterPlugin, MethodCallHandler,
             case "setDMAParamsForEEA":
                 setDMAParamsForEEA(call);
                 break;
+            case "reInit":
+                reInit(call);
+                break;
             default:
                 result.notImplemented();
                 break;
@@ -1007,6 +1010,17 @@ public class FlutterBranchSdkPlugin implements FlutterPlugin, MethodCallHandler,
         final boolean adUserDataUsageConsent = Boolean.TRUE.equals(call.argument("adUserDataUsageConsent"));
 
         Branch.getInstance().setDMAParamsForEEA(eeaRegion,adPersonalizationConsent,adUserDataUsageConsent);
+    }
+
+    private void reInit(MethodCall call) {
+        LogUtils.debug(DEBUG_NAME, "reInit");
+        if (!isInitialized) {
+            // Delay session initialization
+            Branch.expectDelayedSessionInitialization(true);
+            return;
+        }
+        LogUtils.debug(DEBUG_NAME, "triggered SessionBuilder init");
+        Branch.sessionBuilder(activity).withCallback(branchReferralInitListener).withData(activity.getIntent().getData()).init();
     }
 }
 

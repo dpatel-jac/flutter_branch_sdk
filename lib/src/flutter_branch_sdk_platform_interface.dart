@@ -274,4 +274,8 @@ abstract class FlutterBranchSdkPlatform extends PlatformInterface {
       required bool adUserDataUsageConsent}) {
     throw UnimplementedError('setDMAParamsForEEA has not been implemented');
   }
+
+  void reInit() {
+    throw UnimplementedError('reInit has not been implemented');
+  }
 }

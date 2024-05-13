@@ -464,4 +464,9 @@ class FlutterBranchSdkMethodChannel implements FlutterBranchSdkPlatform {
       'adUserDataUsageConsent': adUserDataUsageConsent
     });
   }
+
+  @override
+  void reInit() {
+    messageChannel.invokeMethod('reInit');
+  }
 }

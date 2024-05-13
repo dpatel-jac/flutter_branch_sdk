@@ -268,4 +268,8 @@ class FlutterBranchSdk {
         adPersonalizationConsent: adPersonalizationConsent,
         adUserDataUsageConsent: adUserDataUsageConsent);
   }
+
+  static void reInit() {
+    FlutterBranchSdkPlatform.instance.reInit();
+  }
 }
