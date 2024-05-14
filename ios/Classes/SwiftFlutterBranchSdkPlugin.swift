@@ -227,6 +227,9 @@ public class SwiftFlutterBranchSdkPlugin: NSObject, FlutterPlugin, FlutterStream
         case "setDMAParamsForEEA":
             setDMAParamsForEEA(call: call)
             break;
+        case "reInit":
+            reInit()
+            break;
         default:
             result(FlutterMethodNotImplemented)
             break
@@ -766,6 +769,29 @@ public class SwiftFlutterBranchSdkPlugin: NSObject, FlutterPlugin, FlutterStream
         } else {
             DispatchQueue.main.async {
                 result(String(""))  // return notSupported
+            }
+        }
+    }
+    
+    private func reInit() {
+        branch!.initSession(launchOptions: initialLaunchOptions) { (params, error) in
+            if error == nil {
+                print("Branch InitSession params: \(String(describing: params as? [String: Any]))")
+                guard let _ = self.eventSink else {
+                    self.initialParams = params as? [String: Any]
+                    return
+                }
+                self.eventSink!(params as? [String: Any])
+            } else {
+                let err = (error! as NSError)
+                print("Branch InitSession error: \(err.localizedDescription)")
+                guard let _ = self.eventSink else {
+                    self.initialError = err
+                    return
+                }
+                self.eventSink!(FlutterError(code: String(err.code),
+                                             message: "Branch InitSession error: \(err.localizedDescription)",
+                                             details: nil))
             }
         }
     }
