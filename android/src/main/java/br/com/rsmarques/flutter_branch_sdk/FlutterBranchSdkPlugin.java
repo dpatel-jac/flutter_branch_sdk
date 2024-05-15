@@ -877,12 +877,6 @@ public class FlutterBranchSdkPlugin implements FlutterPlugin, MethodCallHandler,
 
   private void reInit(MethodCall call) {
     LogUtils.debug(DEBUG_NAME, "reInit");
-    if (!isInitialized) {
-      // Delay session initialization
-      Branch.expectDelayedSessionInitialization(true);
-      return;
-    }
-    LogUtils.debug(DEBUG_NAME, "triggered SessionBuilder init");
     Branch.sessionBuilder(activity).withCallback(branchReferralInitListener).withData(activity.getIntent().getData()).init();
   }
 }
