@@ -318,6 +318,9 @@ public class FlutterBranchSdkPlugin implements FlutterPlugin, MethodCallHandler,
       case "addSnapPartnerParameter" :
         addSnapPartnerParameter(call);
         break;
+      case "reInit":
+        reInit(call);
+        break;
 
       default:
         result.notImplemented();
@@ -870,6 +873,17 @@ public class FlutterBranchSdkPlugin implements FlutterPlugin, MethodCallHandler,
         Branch.getAutoInstance(context).addSnapPartnerParameterWithName(key, value);
       }
     });
+  }
+
+  private void reInit(MethodCall call) {
+    LogUtils.debug(DEBUG_NAME, "reInit");
+    if (!isInitialized) {
+      // Delay session initialization
+      Branch.expectDelayedSessionInitialization(true);
+      return;
+    }
+    LogUtils.debug(DEBUG_NAME, "triggered SessionBuilder init");
+    Branch.sessionBuilder(activity).withCallback(branchReferralInitListener).withData(activity.getIntent().getData()).init();
   }
 }
 

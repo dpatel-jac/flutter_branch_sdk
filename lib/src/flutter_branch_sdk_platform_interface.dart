@@ -255,4 +255,8 @@ abstract class FlutterBranchSdkPlatform extends PlatformInterface {
     throw UnimplementedError(
         'addSnapPartnerParameter has not been implemented');
   }
+
+  void reInit() {
+    throw UnimplementedError('reInit has not been implemented');
+  }
 }

@@ -379,4 +379,9 @@ class FlutterBranchSdkMethodChannel implements FlutterBranchSdkPlatform {
     messageChannel
         .invokeMethod('addSnapPartnerParameter', {'key': key, 'value': value});
   }
+
+  @override
+  void reInit() {
+    messageChannel.invokeMethod('reInit');
+  }
 }

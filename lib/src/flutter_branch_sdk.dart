@@ -241,4 +241,8 @@ class FlutterBranchSdk {
     FlutterBranchSdkPlatform.instance
         .addSnapPartnerParameter(key: key, value: value);
   }
+
+  static void reInit() {
+    FlutterBranchSdkPlatform.instance.reInit();
+  }
 }
