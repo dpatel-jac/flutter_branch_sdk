@@ -16,6 +16,7 @@ public class SwiftFlutterBranchSdkPlugin: NSObject, FlutterPlugin, FlutterStream
     var eventSink: FlutterEventSink?
     var initialParams : [String: Any]? = nil
     var initialError : NSError? = nil
+    var initialLaunchOptions: [AnyHashable: Any] =  [:]
     
     //---------------------------------------------------------------------------------------------
     // Plugin registry
@@ -34,7 +35,7 @@ public class SwiftFlutterBranchSdkPlugin: NSObject, FlutterPlugin, FlutterStream
     
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
         
-        
+        initialLaunchOptions = launchOptions
         Branch.getInstance().registerPluginName(PLUGIN_NAME, version: PLUGIN_VERSION);
         
 #if DEBUG
@@ -655,7 +656,7 @@ public class SwiftFlutterBranchSdkPlugin: NSObject, FlutterPlugin, FlutterStream
     }
 
     private func reInit() {
-        Branch.getInstance().initSession(launchOptions: launchOptions) { (params, error) in
+        Branch.getInstance().initSession(launchOptions: initialLaunchOptions) { (params, error) in
             if error == nil {
                         print("Branch InitSession params: \(String(describing: params as? [String: Any]))")
                         guard let _ = self.eventSink else {
